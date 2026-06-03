@@ -94,6 +94,9 @@ export interface JDAnalysis {
   mustHave: string[];
   niceToHave: string[];
   rawKeywords: string[];
+  jobTitle?: string;
+  industry?: string;
+  experienceLevel?: string;
 }
 
 export interface ATSResult {
