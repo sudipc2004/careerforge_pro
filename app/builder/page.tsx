@@ -1,0 +1,351 @@
+'use client';
+
+import { useState } from 'react';
+import Navbar from '@/components/layout/Navbar';
+import ContactForm from '@/components/resume-form/ContactForm';
+import SummaryForm from '@/components/resume-form/SummaryForm';
+import ExperienceForm from '@/components/resume-form/ExperienceForm';
+import EducationForm from '@/components/resume-form/EducationForm';
+import SkillsForm from '@/components/resume-form/SkillsForm';
+import ResumePreview from '@/components/resume-preview/ResumePreview';
+import ATSScoreMeter from '@/components/ui/ATSScoreMeter';
+import { useResume } from '@/lib/resume-context';
+import {
+  User, Briefcase, GraduationCap, Wrench, FileText,
+  Sparkles, Download, Loader2, Target, ChevronRight,
+  Zap, LayoutTemplate, Brain, AlertCircle,
+} from 'lucide-react';
+import toast from 'react-hot-toast';
+
+const SECTIONS = [
+  { id: 'contact', label: 'Contact', icon: User },
+  { id: 'summary', label: 'Summary', icon: FileText },
+  { id: 'experience', label: 'Experience', icon: Briefcase },
+  { id: 'education', label: 'Education', icon: GraduationCap },
+  { id: 'skills', label: 'Skills', icon: Wrench },
+];
+
+const TEMPLATES = [
+  { id: 'modern', label: 'Modern', color: 'from-indigo-600 to-purple-600', desc: 'Vibrant & Contemporary' },
+  { id: 'executive', label: 'Executive', color: 'from-slate-700 to-slate-900', desc: 'Classic & Professional' },
+  { id: 'minimal', label: 'Minimal', color: 'from-gray-700 to-gray-900', desc: 'Clean & Simple' },
+];
+
+export default function BuilderPage() {
+  const { state, dispatch, analyzeJD, downloadPDF } = useResume();
+  const [activeSection, setActiveSection] = useState('contact');
+  const [showJDPanel, setShowJDPanel] = useState(false);
+  const [showTemplates, setShowTemplates] = useState(false);
+  const [variations, setVariations] = useState<string[]>([]);
+
+  const { resume, jobDescription, jdAnalysis, atsResult, isAnalyzing, isGeneratingPdf } = state;
+
+  const handleAnalyzeJD = async () => {
+    if (!jobDescription.trim()) {
+      toast.error('Paste a job description first!');
+      return;
+    }
+    toast.loading('Analyzing job description...', { id: 'jd-analyze' });
+    try {
+      await analyzeJD();
+      toast.success('JD analyzed! Keywords extracted ✨', { id: 'jd-analyze' });
+    } catch {
+      toast.error('Analysis failed', { id: 'jd-analyze' });
+    }
+  };
+
+  const handleDownloadPDF = async () => {
+    toast.loading('Generating PDF...', { id: 'pdf-gen' });
+    try {
+      await downloadPDF();
+      toast.success('PDF downloaded! 🎉', { id: 'pdf-gen' });
+    } catch {
+      toast.error('PDF generation failed', { id: 'pdf-gen' });
+    }
+  };
+
+  const renderSection = () => {
+    switch (activeSection) {
+      case 'contact': return <ContactForm />;
+      case 'summary': return <SummaryForm />;
+      case 'experience': return <ExperienceForm />;
+      case 'education': return <EducationForm />;
+      case 'skills': return <SkillsForm />;
+      default: return null;
+    }
+  };
+
+  return (
+    <div className="min-h-screen bg-[#0a0f1e]">
+      <Navbar />
+
+      {/* Top Bar */}
+      <div className="fixed top-16 left-0 right-0 z-40 border-b border-white/10 bg-[#0a0f1e]/95 backdrop-blur-xl">
+        <div className="flex items-center justify-between px-4 py-2.5 max-w-[1800px] mx-auto">
+          <div className="flex items-center gap-2">
+            <input
+              type="text"
+              value={resume.name}
+              onChange={(e) => dispatch({ type: 'SET_RESUME_NAME', payload: e.target.value })}
+              className="bg-transparent text-white font-medium text-sm border-b border-transparent hover:border-white/20 focus:border-indigo-500 focus:outline-none px-1 py-0.5 transition-colors w-48"
+            />
+          </div>
+
+          <div className="flex items-center gap-2">
+            {/* ATS Score compact */}
+            {atsResult && (
+              <div className="flex items-center gap-2 px-3 py-1.5 glass rounded-xl">
+                <ATSScoreMeter score={atsResult.score} compact />
+              </div>
+            )}
+
+            {/* Template picker */}
+            <button
+              onClick={() => setShowTemplates(!showTemplates)}
+              className="flex items-center gap-1.5 px-3 py-2 glass hover:bg-white/10 text-gray-300 text-sm rounded-xl transition-all"
+            >
+              <LayoutTemplate className="w-4 h-4" />
+              <span className="hidden sm:inline capitalize">{resume.template}</span>
+            </button>
+
+            {/* JD Panel */}
+            <button
+              onClick={() => setShowJDPanel(!showJDPanel)}
+              className={`flex items-center gap-1.5 px-3 py-2 text-sm rounded-xl transition-all ${
+                showJDPanel
+                  ? 'bg-indigo-600 text-white'
+                  : 'glass hover:bg-white/10 text-gray-300'
+              }`}
+            >
+              <Target className="w-4 h-4" />
+              <span className="hidden sm:inline">JD Analysis</span>
+              {jdAnalysis && (
+                <span className="w-2 h-2 rounded-full bg-emerald-400" />
+              )}
+            </button>
+
+            {/* Download PDF */}
+            <button
+              onClick={handleDownloadPDF}
+              disabled={isGeneratingPdf}
+              className="flex items-center gap-1.5 px-4 py-2 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white text-sm font-medium rounded-xl transition-all shadow-lg shadow-emerald-500/25 disabled:opacity-60"
+            >
+              {isGeneratingPdf ? <Loader2 className="w-4 h-4 animate-spin" /> : <Download className="w-4 h-4" />}
+              <span className="hidden sm:inline">Download PDF</span>
+            </button>
+          </div>
+        </div>
+
+        {/* Template dropdown */}
+        {showTemplates && (
+          <div className="px-4 pb-3 pt-1 border-t border-white/5">
+            <div className="flex gap-2">
+              {TEMPLATES.map((t) => (
+                <button
+                  key={t.id}
+                  onClick={() => {
+                    dispatch({ type: 'SET_TEMPLATE', payload: t.id as any });
+                    setShowTemplates(false);
+                  }}
+                  className={`flex items-center gap-2 px-3 py-2 rounded-xl text-sm transition-all ${
+                    resume.template === t.id
+                      ? 'bg-white/15 border border-white/30 text-white'
+                      : 'glass hover:bg-white/10 text-gray-400'
+                  }`}
+                >
+                  <div className={`w-5 h-5 rounded bg-gradient-to-br ${t.color}`} />
+                  <div className="text-left">
+                    <div className="font-medium">{t.label}</div>
+                    <div className="text-[10px] text-gray-500">{t.desc}</div>
+                  </div>
+                  {resume.template === t.id && <ChevronRight className="w-3 h-3 text-indigo-400" />}
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
+      </div>
+
+      {/* Main Layout */}
+      <div className={`flex pt-[${showTemplates ? '120px' : '96px'}] min-h-screen`} style={{ paddingTop: showTemplates ? '120px' : '96px' }}>
+
+        {/* Left: Form Panel */}
+        <div className="w-[420px] flex-shrink-0 flex flex-col border-r border-white/10 h-[calc(100vh-96px)] sticky top-[96px] overflow-hidden">
+
+          {/* Section tabs */}
+          <div className="flex border-b border-white/10 bg-[#0d1226] flex-shrink-0">
+            {SECTIONS.map(({ id, label, icon: Icon }) => (
+              <button
+                key={id}
+                onClick={() => setActiveSection(id)}
+                className={`flex-1 flex flex-col items-center gap-1 py-3 text-xs font-medium transition-all ${
+                  activeSection === id
+                    ? 'text-indigo-300 border-b-2 border-indigo-500 bg-indigo-500/5'
+                    : 'text-gray-500 hover:text-gray-300 hover:bg-white/5'
+                }`}
+              >
+                <Icon className="w-4 h-4" />
+                <span>{label}</span>
+              </button>
+            ))}
+          </div>
+
+          {/* Form content */}
+          <div className="flex-1 overflow-y-auto scrollbar-thin p-4">
+            {renderSection()}
+          </div>
+        </div>
+
+        {/* Middle: JD Panel (conditional) */}
+        {showJDPanel && (
+          <div className="w-[360px] flex-shrink-0 border-r border-white/10 flex flex-col h-[calc(100vh-96px)] sticky top-[96px] overflow-hidden">
+            <div className="p-4 border-b border-white/10 flex-shrink-0">
+              <div className="flex items-center gap-2 mb-1">
+                <Brain className="w-4 h-4 text-indigo-400" />
+                <h3 className="font-semibold text-white text-sm">JD Analysis Agent</h3>
+              </div>
+              <p className="text-xs text-gray-500">Paste a job description to extract ATS keywords</p>
+            </div>
+
+            <div className="flex-1 overflow-y-auto scrollbar-thin p-4 space-y-4">
+              {/* JD Input */}
+              <div>
+                <textarea
+                  value={jobDescription}
+                  onChange={(e) => dispatch({ type: 'SET_JOB_DESCRIPTION', payload: e.target.value })}
+                  placeholder="Paste the full job description here...&#10;&#10;We're looking for a Senior Software Engineer with expertise in React, Node.js, and AWS..."
+                  rows={8}
+                  className="w-full bg-white/5 border border-white/10 text-white placeholder-gray-600 rounded-xl px-4 py-3 text-xs focus:outline-none focus:border-indigo-500/60 transition-all resize-none leading-relaxed"
+                />
+                <button
+                  onClick={handleAnalyzeJD}
+                  disabled={isAnalyzing}
+                  className="mt-2 w-full flex items-center justify-center gap-2 px-4 py-2.5 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white text-sm font-medium rounded-xl transition-all disabled:opacity-60 shadow-lg shadow-indigo-500/25"
+                >
+                  {isAnalyzing ? (
+                    <Loader2 className="w-4 h-4 animate-spin" />
+                  ) : (
+                    <Zap className="w-4 h-4" />
+                  )}
+                  {isAnalyzing ? 'Analyzing...' : 'Analyze Job Description'}
+                </button>
+              </div>
+
+              {/* Results */}
+              {jdAnalysis && (
+                <div className="space-y-3 animate-fade-in">
+                  {/* ATS Score */}
+                  {atsResult && (
+                    <div className="glass-card p-4">
+                      <ATSScoreMeter
+                        score={atsResult.score}
+                        matched={atsResult.matched}
+                        missing={atsResult.missing}
+                      />
+                    </div>
+                  )}
+
+                  {/* Must-Have Keywords */}
+                  {jdAnalysis.mustHave?.length > 0 && (
+                    <KeywordSection
+                      title="Must-Have"
+                      keywords={jdAnalysis.mustHave}
+                      color="red"
+                      icon="🎯"
+                    />
+                  )}
+
+                  {/* Technical */}
+                  {jdAnalysis.technical?.length > 0 && (
+                    <KeywordSection
+                      title="Technical Skills"
+                      keywords={jdAnalysis.technical}
+                      color="indigo"
+                      icon="⚡"
+                    />
+                  )}
+
+                  {/* Tools */}
+                  {jdAnalysis.tools?.length > 0 && (
+                    <KeywordSection
+                      title="Tools & Platforms"
+                      keywords={jdAnalysis.tools}
+                      color="cyan"
+                      icon="🔧"
+                    />
+                  )}
+
+                  {/* Soft Skills */}
+                  {jdAnalysis.softSkills?.length > 0 && (
+                    <KeywordSection
+                      title="Soft Skills"
+                      keywords={jdAnalysis.softSkills}
+                      color="emerald"
+                      icon="💼"
+                    />
+                  )}
+
+                  {jdAnalysis.jobTitle && (
+                    <div className="flex items-center gap-2 p-3 glass rounded-xl text-xs">
+                      <AlertCircle className="w-3.5 h-3.5 text-amber-400 flex-shrink-0" />
+                      <span className="text-gray-400">
+                        <span className="text-white font-medium">{jdAnalysis.jobTitle}</span>
+                        {jdAnalysis.experienceLevel && ` · ${jdAnalysis.experienceLevel}`}
+                        {jdAnalysis.industry && ` · ${jdAnalysis.industry}`}
+                      </span>
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
+          </div>
+        )}
+
+        {/* Right: Resume Preview */}
+        <div className="flex-1 bg-[#080d1a] flex flex-col overflow-hidden">
+          <div className="flex-1 overflow-auto scrollbar-thin p-6">
+            <div className="flex justify-center">
+              <div className="shadow-2xl" style={{ width: '210mm' }}>
+                <ResumePreview resume={resume} />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function KeywordSection({
+  title, keywords, color, icon,
+}: {
+  title: string;
+  keywords: string[];
+  color: string;
+  icon: string;
+}) {
+  const colorMap: Record<string, string> = {
+    red: 'bg-red-500/15 text-red-300 border-red-500/25',
+    indigo: 'bg-indigo-500/15 text-indigo-300 border-indigo-500/25',
+    cyan: 'bg-cyan-500/15 text-cyan-300 border-cyan-500/25',
+    emerald: 'bg-emerald-500/15 text-emerald-300 border-emerald-500/25',
+  };
+
+  return (
+    <div className="glass rounded-xl p-3">
+      <p className="text-xs font-semibold text-gray-300 mb-2">
+        {icon} {title}
+      </p>
+      <div className="flex flex-wrap gap-1.5">
+        {keywords.map((kw) => (
+          <span
+            key={kw}
+            className={`text-xs px-2 py-0.5 rounded-full border ${colorMap[color] || colorMap.indigo}`}
+          >
+            {kw}
+          </span>
+        ))}
+      </div>
+    </div>
+  );
+}
