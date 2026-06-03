@@ -1,0 +1,25 @@
+{
+  "users": [
+    {
+      "id": "db716166-1b7c-437f-9a4f-038d91711c03",
+      "email": "test@example.com",
+      "name": "Test User",
+      "plan": "free",
+      "resumeCount": 0,
+      "savedResumes": [],
+      "createdAt": "2026-06-03T03:38:59.164Z",
+      "updatedAt": "2026-06-03T03:38:59.165Z"
+    },
+    {
+      "id": "b3700eb4-2fd3-456f-a183-69d1f4364c20",
+      "email": "sudipc014@gmail.com",
+      "name": "sudip",
+      "plan": "free",
+      "resumeCount": 0,
+      "savedResumes": [],
+      "createdAt": "2026-06-03T03:58:42.399Z",
+      "updatedAt": "2026-06-03T04:00:11.281Z",
+      "stripeCustomerId": "cus_UdMhzMJVBJ8OOu"
+    }
+  ]
+}
