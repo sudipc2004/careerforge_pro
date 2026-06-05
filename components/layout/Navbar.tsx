@@ -5,7 +5,7 @@ import { useSession, signOut } from 'next-auth/react';
 import { usePathname } from 'next/navigation';
 import { useState } from 'react';
 import {
-  Sparkles, FileText, LayoutDashboard, LogOut, Menu, X, ChevronDown, Crown,
+  Sparkles, FileText, LayoutDashboard, LogOut, Menu, X, ChevronDown, Crown, Mail,
 } from 'lucide-react';
 
 export default function Navbar() {
@@ -19,6 +19,7 @@ export default function Navbar() {
   const navLinks = [
     { href: '/builder', label: 'Builder', icon: FileText },
     { href: '/ats-checker', label: 'ATS Checker', icon: Sparkles },
+    { href: '/cover-letter', label: 'Cover Letter', icon: Mail },
     { href: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
     { href: '/pricing', label: 'Pricing', icon: Crown },
   ];
