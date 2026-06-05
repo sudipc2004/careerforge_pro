@@ -88,7 +88,8 @@ type Action =
   | { type: 'SET_IS_GENERATING_PDF'; payload: boolean }
   | { type: 'SET_ACTIVE_SECTION'; payload: string }
   | { type: 'SET_ATS_SCORE'; payload: number }
-  | { type: 'REWRITE_BULLET'; payload: { experienceId: string; bulletId: string; text: string } };
+  | { type: 'REWRITE_BULLET'; payload: { experienceId: string; bulletId: string; text: string } }
+  | { type: 'SET_CUSTOM_COLORS'; payload: { primary: string; accent: string } | undefined };
 
 // ─── Reducer ─────────────────────────────────────────────────────────────────
 
@@ -126,6 +127,16 @@ function resumeReducer(state: ResumeState, action: Action): ResumeState {
       return {
         ...state,
         resume: { ...state.resume, name: action.payload },
+      };
+
+    case 'SET_CUSTOM_COLORS':
+      return {
+        ...state,
+        resume: {
+          ...state.resume,
+          customColors: action.payload,
+          lastModified: now,
+        },
       };
 
     case 'ADD_EXPERIENCE':

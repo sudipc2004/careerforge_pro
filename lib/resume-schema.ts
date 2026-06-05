@@ -85,6 +85,10 @@ export interface ResumeData {
   certifications: Certification[];
   lastModified: string;
   atsScore?: number;
+  customColors?: {
+    primary: string;
+    accent: string;
+  };
 }
 
 export interface JDAnalysis {

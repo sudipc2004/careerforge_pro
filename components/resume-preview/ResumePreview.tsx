@@ -44,8 +44,11 @@ const formatDate = (d: string) => {
 };
 
 export default function ResumePreview({ resume }: ResumePreviewProps) {
-  const { contact, summary, experience, education, skills, projects, certifications, template } = resume;
-  const theme = THEME_COLORS[template || 'modern'];
+  const { contact, summary, experience, education, skills, projects, certifications, template, customColors } = resume;
+  const baseTheme = THEME_COLORS[template || 'modern'];
+  const theme = customColors
+    ? { ...baseTheme, primary: customColors.primary, accent: customColors.accent }
+    : baseTheme;
 
   return (
     <div

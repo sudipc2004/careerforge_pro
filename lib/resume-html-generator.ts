@@ -6,11 +6,15 @@ import { ResumeData } from './resume-schema';
 export function generateResumeHTML(resume: ResumeData): string {
   const { contact, summary, experience, education, skills, projects, certifications, template } = resume;
 
-  const colors = {
+  const baseColors = {
     modern: { primary: '#4f46e5', accent: '#10b981', text: '#1e293b', muted: '#64748b' },
     executive: { primary: '#1e3a5f', accent: '#c9a84c', text: '#1a1a1a', muted: '#555555' },
     minimal: { primary: '#111827', accent: '#6b7280', text: '#111827', muted: '#6b7280' },
   }[template || 'modern'];
+
+  const colors = resume.customColors
+    ? { ...baseColors, primary: resume.customColors.primary, accent: resume.customColors.accent }
+    : baseColors;
 
   const formatDate = (d: string) => {
     if (!d) return '';

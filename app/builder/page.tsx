@@ -166,7 +166,7 @@ export default function BuilderPage() {
 
         {/* Template dropdown */}
         {showTemplates && (
-          <div className="px-4 pb-3 pt-1 border-t border-white/5">
+          <div className="px-4 pb-3.5 pt-2 border-t border-white/5 space-y-3.5">
             <div className="flex gap-2">
               {TEMPLATES.map((t) => (
                 <button
@@ -189,6 +189,65 @@ export default function BuilderPage() {
                   {resume.template === t.id && <ChevronRight className="w-3 h-3 text-indigo-400" />}
                 </button>
               ))}
+            </div>
+
+            {/* Custom Theme Colors Picker */}
+            <div className="flex flex-wrap items-center gap-4 pt-2.5 border-t border-white/5 text-xs">
+              <span className="text-gray-400 font-medium">Custom Palette:</span>
+              <div className="flex items-center gap-3">
+                <label className="flex items-center gap-1.5 text-gray-300 cursor-pointer">
+                  <span className="text-gray-500">Primary:</span>
+                  <input
+                    type="color"
+                    value={resume.customColors?.primary || {
+                      modern: '#6366f1',
+                      executive: '#1e3a5f',
+                      minimal: '#111827'
+                    }[resume.template || 'modern']}
+                    onChange={(e) => {
+                      const primary = e.target.value;
+                      const accent = resume.customColors?.accent || {
+                        modern: '#10b981',
+                        executive: '#c9a84c',
+                        minimal: '#6b7280'
+                      }[resume.template || 'modern'];
+                      dispatch({ type: 'SET_CUSTOM_COLORS', payload: { primary, accent } });
+                    }}
+                    className="w-6 h-6 rounded cursor-pointer border border-white/10 bg-transparent p-0"
+                  />
+                </label>
+
+                <label className="flex items-center gap-1.5 text-gray-300 cursor-pointer">
+                  <span className="text-gray-500">Accent:</span>
+                  <input
+                    type="color"
+                    value={resume.customColors?.accent || {
+                      modern: '#10b981',
+                      executive: '#c9a84c',
+                      minimal: '#6b7280'
+                    }[resume.template || 'modern']}
+                    onChange={(e) => {
+                      const accent = e.target.value;
+                      const primary = resume.customColors?.primary || {
+                        modern: '#6366f1',
+                        executive: '#1e3a5f',
+                        minimal: '#111827'
+                      }[resume.template || 'modern'];
+                      dispatch({ type: 'SET_CUSTOM_COLORS', payload: { primary, accent } });
+                    }}
+                    className="w-6 h-6 rounded cursor-pointer border border-white/10 bg-transparent p-0"
+                  />
+                </label>
+
+                {resume.customColors && (
+                  <button
+                    onClick={() => dispatch({ type: 'SET_CUSTOM_COLORS', payload: undefined })}
+                    className="text-xs text-red-400 hover:text-red-300 underline font-medium ml-2"
+                  >
+                    Reset Colors
+                  </button>
+                )}
+              </div>
             </div>
           </div>
         )}
