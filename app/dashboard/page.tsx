@@ -11,7 +11,7 @@ import {
 import Link from 'next/link';
 import { ResumeData } from '@/lib/resume-schema';
 import { useResume } from '@/lib/resume-context';
-import { MOCK_RESUME_FRONTEND, MOCK_RESUME_PRODUCT_MANAGER } from '@/data/mock-resumes';
+import { MOCK_RESUME_FRONTEND, MOCK_RESUME_PRODUCT_MANAGER, MOCK_RESUME_UX_DESIGNER } from '@/data/mock-resumes';
 import toast from 'react-hot-toast';
 
 export default function DashboardPage() {
@@ -112,6 +112,7 @@ export default function DashboardPage() {
                 const val = e.target.value;
                 if (val === 'frontend') createMockResume(MOCK_RESUME_FRONTEND);
                 if (val === 'pm') createMockResume(MOCK_RESUME_PRODUCT_MANAGER);
+                if (val === 'ux') createMockResume(MOCK_RESUME_UX_DESIGNER);
                 e.target.value = ''; // reset
               }}
               className="px-4 py-2.5 bg-white/5 border border-white/10 hover:bg-white/10 text-gray-300 text-sm rounded-xl transition-all outline-none"
@@ -119,6 +120,7 @@ export default function DashboardPage() {
               <option value="" className="bg-[#0f1425] text-gray-400">Load Mock Template...</option>
               <option value="frontend" className="bg-[#0f1425] text-white">Frontend Dev Template</option>
               <option value="pm" className="bg-[#0f1425] text-white">Product Manager Template</option>
+              <option value="ux" className="bg-[#0f1425] text-white">UX/UI Designer Template</option>
             </select>
             <Link
               href="/builder"

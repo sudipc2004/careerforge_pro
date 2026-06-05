@@ -250,4 +250,98 @@ export const MOCK_RESUME_PRODUCT_MANAGER: ResumeData = {
   atsScore: 89,
 };
 
-export const MOCK_RESUMES = [MOCK_RESUME_FRONTEND, MOCK_RESUME_PRODUCT_MANAGER];
+export const MOCK_RESUME_UX_DESIGNER: ResumeData = {
+  id: 'mock-ux-id',
+  name: 'Senior UX/UI Designer Template',
+  template: 'minimal',
+  contact: {
+    fullName: 'Taylor Vance',
+    email: 'taylor.vance@email.com',
+    phone: '+1 (555) 456-7890',
+    location: 'New York, NY',
+    linkedIn: 'linkedin.com/in/taylorvance',
+    website: 'taylorvance.design',
+    github: '',
+  },
+  summary: 'Creative UX/UI Designer with 5+ years of experience designing elegant, user-centric interfaces. Proficient in Figma, user research, wireframing, and high-fidelity prototyping. Proven ability to translate user insights into designs that increased mobile conversion rates by 28% for e-commerce SaaS.',
+  experience: [
+    {
+      id: 'exp-ux-1',
+      company: 'CreativeSaaS Studio',
+      position: 'Senior UX/UI Designer',
+      location: 'New York, NY',
+      startDate: '2023-05',
+      endDate: '',
+      current: true,
+      bullets: [
+        {
+          id: 'b-ux-1-1',
+          text: 'Redesigned core mobile web layouts, driving a 28% increase in conversion rate and improving accessibility scores to meet compliance regulations.',
+        },
+        {
+          id: 'b-ux-1-2',
+          text: 'Developed detailed user journey maps and wireframes based on qualitative user research and usability testing with 40+ active users.',
+        },
+      ],
+    },
+  ],
+  education: [
+    {
+      id: 'edu-ux-1',
+      institution: 'New York School of Design',
+      degree: 'Bachelor of Fine Arts (BFA)',
+      field: 'Interaction Design',
+      location: 'New York, NY',
+      startDate: '2015-09',
+      endDate: '2019-05',
+    },
+  ],
+  skills: [
+    {
+      id: 'sk-gp-ux-1',
+      category: 'Design Tools',
+      skills: [
+        { id: 's-ux-1', name: 'Figma' },
+        { id: 's-ux-2', name: 'Adobe XD' },
+        { id: 's-ux-3', name: 'Sketch' },
+        { id: 's-ux-4', name: 'Principle' },
+      ],
+    },
+    {
+      id: 'sk-gp-ux-2',
+      category: 'Design Methodology',
+      skills: [
+        { id: 's-ux-5', name: 'User Research' },
+        { id: 's-ux-6', name: 'Wireframing' },
+        { id: 's-ux-7', name: 'High-Fidelity Prototyping' },
+        { id: 's-ux-8', name: 'Usability Testing' },
+      ],
+    },
+  ],
+  projects: [
+    {
+      id: 'proj-ux-1',
+      name: 'Design System Forge',
+      description: 'Built a shared design system matching token architectures to accelerate prototyping and developer handoff.',
+      technologies: ['Figma Variables', 'Design Tokens', 'Storybook Link'],
+      bullets: [
+        {
+          id: 'b-ux-p-1',
+          text: 'Halved mock-to-code iteration time for a engineering team of 15+ members.',
+        },
+      ],
+    },
+  ],
+  certifications: [
+    {
+      id: 'cert-ux-1',
+      name: 'Google UX Design Professional Certificate',
+      issuer: 'Coursera',
+      date: '2020-10',
+    },
+  ],
+  lastModified: new Date().toISOString(),
+  atsScore: 91,
+};
+
+export const MOCK_RESUMES = [MOCK_RESUME_FRONTEND, MOCK_RESUME_PRODUCT_MANAGER, MOCK_RESUME_UX_DESIGNER];

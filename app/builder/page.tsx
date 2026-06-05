@@ -18,7 +18,7 @@ import {
   Zap, LayoutTemplate, Brain, AlertCircle, FolderCode, Award,
 } from 'lucide-react';
 import toast from 'react-hot-toast';
-import { MOCK_RESUME_FRONTEND, MOCK_RESUME_PRODUCT_MANAGER } from '@/data/mock-resumes';
+import { MOCK_RESUME_FRONTEND, MOCK_RESUME_PRODUCT_MANAGER, MOCK_RESUME_UX_DESIGNER } from '@/data/mock-resumes';
 
 const SECTIONS = [
   { id: 'contact', label: 'Contact', icon: User },
@@ -118,6 +118,10 @@ export default function BuilderPage() {
                   dispatch({ type: 'SET_RESUME', payload: { ...MOCK_RESUME_PRODUCT_MANAGER, id: resume.id } });
                   toast.success('Loaded Product Manager Demo data! ✨');
                 }
+                if (val === 'ux') {
+                  dispatch({ type: 'SET_RESUME', payload: { ...MOCK_RESUME_UX_DESIGNER, id: resume.id } });
+                  toast.success('Loaded UX Designer Demo data! ✨');
+                }
                 e.target.value = '';
               }}
               className="flex items-center gap-1.5 px-3 py-2 glass hover:bg-white/10 text-gray-300 text-xs sm:text-sm rounded-xl transition-all outline-none"
@@ -125,6 +129,7 @@ export default function BuilderPage() {
               <option value="" className="bg-[#0a0f1e] text-gray-400">Load Demo Data...</option>
               <option value="frontend" className="bg-[#0a0f1e] text-white">Frontend Dev</option>
               <option value="pm" className="bg-[#0a0f1e] text-white">Product Manager</option>
+              <option value="ux" className="bg-[#0a0f1e] text-white">UX/UI Designer</option>
             </select>
 
             {/* Template picker */}
