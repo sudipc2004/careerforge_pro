@@ -7,13 +7,14 @@ import SummaryForm from '@/components/resume-form/SummaryForm';
 import ExperienceForm from '@/components/resume-form/ExperienceForm';
 import EducationForm from '@/components/resume-form/EducationForm';
 import SkillsForm from '@/components/resume-form/SkillsForm';
+import ProjectsForm from '@/components/resume-form/ProjectsForm';
 import ResumePreview from '@/components/resume-preview/ResumePreview';
 import ATSScoreMeter from '@/components/ui/ATSScoreMeter';
 import { useResume } from '@/lib/resume-context';
 import {
   User, Briefcase, GraduationCap, Wrench, FileText,
   Sparkles, Download, Loader2, Target, ChevronRight,
-  Zap, LayoutTemplate, Brain, AlertCircle,
+  Zap, LayoutTemplate, Brain, AlertCircle, FolderCode,
 } from 'lucide-react';
 import toast from 'react-hot-toast';
 
@@ -23,6 +24,7 @@ const SECTIONS = [
   { id: 'experience', label: 'Experience', icon: Briefcase },
   { id: 'education', label: 'Education', icon: GraduationCap },
   { id: 'skills', label: 'Skills', icon: Wrench },
+  { id: 'projects', label: 'Projects', icon: FolderCode },
 ];
 
 const TEMPLATES = [
@@ -71,6 +73,7 @@ export default function BuilderPage() {
       case 'experience': return <ExperienceForm />;
       case 'education': return <EducationForm />;
       case 'skills': return <SkillsForm />;
+      case 'projects': return <ProjectsForm />;
       default: return null;
     }
   };
