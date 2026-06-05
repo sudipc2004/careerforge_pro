@@ -12,6 +12,11 @@ CareerForge Pro is a modern, premium Next.js application that enables job seeker
 * **Pixel-Perfect PDF Generation**: Uses headless Puppeteer (Chrome) to generate professionally formatted, ATS-compliant PDF resumes.
 * **Stripe Subscriptions**: Seamlessly integrated tier-based billing (Free vs. Pro Plans) with Customer Portal management.
 * **Next-Auth Integration**: Secure user authentication for saving resumes and tracking progress.
+* **Projects & Certifications Forms**: Full developer support for adding, updating, and dynamically rendering projects and certification lists.
+* **AI Cover Letter Writer**: Personalized, tone-controlled cover letter draft generator that automatically references your loaded resume context.
+* **Cover Letter PDF Export**: High-quality printable A4 exports using headless Puppeteer styled matching active templates.
+* **Custom Theme Color Palette**: Integrated HTML5 pickers to customize primary and accent styling colors.
+* **Demo Resume Templates Loader**: One-click mock resume creators in dashboard and builder workspace.
 
 ---
 
