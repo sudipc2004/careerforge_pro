@@ -195,8 +195,8 @@ export default function BuilderPage() {
             <div className="flex flex-wrap items-center gap-4 pt-2.5 border-t border-white/5 text-xs">
               <span className="text-gray-400 font-medium">Custom Palette:</span>
               <div className="flex items-center gap-3">
-                <label className="flex items-center gap-1.5 text-gray-300 cursor-pointer">
-                  <span className="text-gray-500">Primary:</span>
+                <label className="flex items-center gap-2 text-gray-300 hover:text-white cursor-pointer bg-white/5 hover:bg-white/10 px-2.5 py-1 rounded-xl border border-white/5 hover:border-white/15 transition-all duration-300 hover:scale-105">
+                  <span className="text-gray-400 font-medium">Primary:</span>
                   <input
                     type="color"
                     value={resume.customColors?.primary || {
@@ -213,12 +213,12 @@ export default function BuilderPage() {
                       }[resume.template || 'modern'];
                       dispatch({ type: 'SET_CUSTOM_COLORS', payload: { primary, accent } });
                     }}
-                    className="w-6 h-6 rounded cursor-pointer border border-white/10 bg-transparent p-0"
+                    className="w-5 h-5 rounded-md cursor-pointer border border-white/20 bg-transparent p-0 transition-transform duration-200 hover:scale-110"
                   />
                 </label>
 
-                <label className="flex items-center gap-1.5 text-gray-300 cursor-pointer">
-                  <span className="text-gray-500">Accent:</span>
+                <label className="flex items-center gap-2 text-gray-300 hover:text-white cursor-pointer bg-white/5 hover:bg-white/10 px-2.5 py-1 rounded-xl border border-white/5 hover:border-white/15 transition-all duration-300 hover:scale-105">
+                  <span className="text-gray-400 font-medium">Accent:</span>
                   <input
                     type="color"
                     value={resume.customColors?.accent || {
@@ -235,7 +235,7 @@ export default function BuilderPage() {
                       }[resume.template || 'modern'];
                       dispatch({ type: 'SET_CUSTOM_COLORS', payload: { primary, accent } });
                     }}
-                    className="w-6 h-6 rounded cursor-pointer border border-white/10 bg-transparent p-0"
+                    className="w-5 h-5 rounded-md cursor-pointer border border-white/20 bg-transparent p-0 transition-transform duration-200 hover:scale-110"
                   />
                 </label>
 
