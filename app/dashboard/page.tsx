@@ -11,6 +11,8 @@ import {
 import Link from 'next/link';
 import { ResumeData } from '@/lib/resume-schema';
 import { useResume } from '@/lib/resume-context';
+import { MOCK_RESUME_FRONTEND, MOCK_RESUME_PRODUCT_MANAGER } from '@/data/mock-resumes';
+import toast from 'react-hot-toast';
 
 export default function DashboardPage() {
   const { data: session, status } = useSession();
@@ -54,6 +56,19 @@ export default function DashboardPage() {
     localStorage.setItem('careerforge_resumes', JSON.stringify(updated));
   };
 
+  const createMockResume = (templateResume: ResumeData) => {
+    const newResume: ResumeData = {
+      ...templateResume,
+      id: crypto.randomUUID(),
+      lastModified: new Date().toISOString()
+    };
+    const updated = [newResume, ...savedResumes];
+    setSavedResumes(updated);
+    localStorage.setItem('careerforge_resumes', JSON.stringify(updated));
+    openResume(newResume);
+    toast.success(`Loaded demo resume: ${templateResume.contact.fullName}! ✨`);
+  };
+
   const handleManageBilling = async () => {
     setLoadingPortal(true);
     try {
@@ -91,12 +106,27 @@ export default function DashboardPage() {
             </h1>
             <p className="text-gray-400 mt-1">Manage your AI-optimized resumes</p>
           </div>
-          <Link
-            href="/builder"
-            className="flex items-center gap-2 px-5 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white font-medium rounded-xl transition-all shadow-lg shadow-indigo-500/20"
-          >
-            <Plus className="w-4 h-4" /> New Resume
-          </Link>
+          <div className="flex flex-wrap items-center gap-3">
+            <select
+              onChange={(e) => {
+                const val = e.target.value;
+                if (val === 'frontend') createMockResume(MOCK_RESUME_FRONTEND);
+                if (val === 'pm') createMockResume(MOCK_RESUME_PRODUCT_MANAGER);
+                e.target.value = ''; // reset
+              }}
+              className="px-4 py-2.5 bg-white/5 border border-white/10 hover:bg-white/10 text-gray-300 text-sm rounded-xl transition-all outline-none"
+            >
+              <option value="" className="bg-[#0f1425] text-gray-400">Load Mock Template...</option>
+              <option value="frontend" className="bg-[#0f1425] text-white">Frontend Dev Template</option>
+              <option value="pm" className="bg-[#0f1425] text-white">Product Manager Template</option>
+            </select>
+            <Link
+              href="/builder"
+              className="flex items-center gap-2 px-5 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white font-medium rounded-xl transition-all shadow-lg shadow-indigo-500/20"
+            >
+              <Plus className="w-4 h-4" /> New Resume
+            </Link>
+          </div>
         </div>
 
         {/* Stats cards */}
