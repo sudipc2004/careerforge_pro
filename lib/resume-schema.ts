@@ -174,3 +174,16 @@ export const createDefaultProject = (): Project => ({
   technologies: [],
   bullets: [{ id: crypto.randomUUID(), text: '' }],
 });
+
+export type CoverLetterTone = 'professional' | 'enthusiastic' | 'confident';
+
+export interface CoverLetterToneOption {
+  id: CoverLetterTone;
+  label: string;
+}
+
+export const COVER_LETTER_TONES: CoverLetterToneOption[] = [
+  { id: 'professional', label: 'Professional' },
+  { id: 'enthusiastic', label: 'Enthusiastic' },
+  { id: 'confident', label: 'Confident' },
+];

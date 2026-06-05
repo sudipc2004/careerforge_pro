@@ -9,7 +9,7 @@ import {
   ChevronRight, AlertCircle, ArrowLeft, RefreshCw, Briefcase,
 } from 'lucide-react';
 import Link from 'next/link';
-import { ResumeData, createDefaultResume } from '@/lib/resume-schema';
+import { ResumeData, createDefaultResume, COVER_LETTER_TONES } from '@/lib/resume-schema';
 import toast from 'react-hot-toast';
 
 const inputClass = `w-full bg-white/5 border border-white/10 text-white placeholder-gray-500 rounded-xl px-4 py-2.5 text-sm
@@ -258,11 +258,7 @@ export default function CoverLetterPage() {
               <div>
                 <label className="text-xs text-gray-400 mb-1.5 block">Tone of Voice</label>
                 <div className="grid grid-cols-3 gap-2">
-                  {[
-                    { id: 'professional', label: 'Professional' },
-                    { id: 'enthusiastic', label: 'Enthusiastic' },
-                    { id: 'confident', label: 'Confident' },
-                  ].map((t) => (
+                  {COVER_LETTER_TONES.map((t) => (
                     <button
                       key={t.id}
                       type="button"
