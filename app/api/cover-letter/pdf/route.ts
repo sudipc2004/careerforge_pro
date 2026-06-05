@@ -4,6 +4,15 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { ResumeData } from '@/lib/resume-schema';
 
+/**
+ * Generates an A4 PDF for a given Cover Letter.
+ * Employs headless Puppeteer (Chrome) to compile and render a professional HTML structure.
+ * The output style (primary, accent, margins) changes dynamically based on the template 
+ * (Modern, Executive, Minimal) specified inside the resume context payload.
+ *
+ * @param {NextRequest} req - The Next.js request object containing cover letter body, subject line, and base resume metadata.
+ * @returns {Promise<NextResponse>} Binary application/pdf response stream with direct download headers.
+ */
 export async function POST(req: NextRequest) {
   let browser = null;
   try {

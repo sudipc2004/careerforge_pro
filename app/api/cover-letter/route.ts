@@ -8,6 +8,15 @@ import { handleGeminiError } from '@/lib/gemini-error';
 
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY!);
 
+/**
+ * Handles AI-powered cover letter generation requests.
+ * Connects to Google Gemini AI to analyze candidate background details (resume context)
+ * against a job description, matching key technical or soft skills, and outputting
+ * a tailored subject line, body draft, and key skill alignments.
+ *
+ * @param {NextRequest} req - The Next.js request object containing resume context, job description, and tone.
+ * @returns {Promise<NextResponse>} JSON response containing the draft cover letter, recommended subject, and matches.
+ */
 export async function POST(req: NextRequest) {
   try {
     const { resume, jobDescription, tone = 'professional' } = await req.json() as {
