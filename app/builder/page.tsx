@@ -244,6 +244,24 @@ export default function BuilderPage() {
                   />
                 </label>
 
+                {/* Font Size Selector */}
+                <div className="flex items-center gap-1.5 ml-4 bg-white/5 border border-white/10 hover:bg-white/10 px-2.5 py-1 rounded-xl transition-all">
+                  <span className="text-gray-400 font-medium">Font:</span>
+                  <select
+                    value={resume.fontSize || '10pt'}
+                    onChange={(e) => {
+                      const sz = e.target.value as any;
+                      dispatch({ type: 'SET_FONT_SIZE', payload: sz });
+                    }}
+                    className="bg-transparent text-white border-none outline-none text-xs cursor-pointer font-medium"
+                  >
+                    <option value="9pt" className="bg-[#0a0f1e] text-white">9pt (Compact)</option>
+                    <option value="10pt" className="bg-[#0a0f1e] text-white">10pt (Standard)</option>
+                    <option value="11pt" className="bg-[#0a0f1e] text-white">11pt (Medium)</option>
+                    <option value="12pt" className="bg-[#0a0f1e] text-white">12pt (Large)</option>
+                  </select>
+                </div>
+
                 {resume.customColors && (
                   <button
                     onClick={() => dispatch({ type: 'SET_CUSTOM_COLORS', payload: undefined })}

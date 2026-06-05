@@ -36,7 +36,7 @@ export function generateResumeHTML(resume: ResumeData): string {
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
       font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
-      font-size: 10pt;
+      font-size: ${resume.fontSize || '10pt'};
       line-height: 1.5;
       color: ${colors.text};
       background: white;

@@ -57,7 +57,7 @@ export default function ResumePreview({ resume }: ResumePreviewProps) {
         width: '210mm',
         minHeight: '297mm',
         fontFamily: "'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif",
-        fontSize: '10pt',
+        fontSize: resume.fontSize || '10pt',
         lineHeight: '1.5',
         color: theme.text,
         transform: 'scale(0.75)',

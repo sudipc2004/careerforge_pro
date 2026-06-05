@@ -89,6 +89,7 @@ export interface ResumeData {
     primary: string;
     accent: string;
   };
+  fontSize?: '9pt' | '10pt' | '11pt' | '12pt';
 }
 
 export interface JDAnalysis {

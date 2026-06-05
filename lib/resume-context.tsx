@@ -89,7 +89,8 @@ type Action =
   | { type: 'SET_ACTIVE_SECTION'; payload: string }
   | { type: 'SET_ATS_SCORE'; payload: number }
   | { type: 'REWRITE_BULLET'; payload: { experienceId: string; bulletId: string; text: string } }
-  | { type: 'SET_CUSTOM_COLORS'; payload: { primary: string; accent: string } | undefined };
+  | { type: 'SET_CUSTOM_COLORS'; payload: { primary: string; accent: string } | undefined }
+  | { type: 'SET_FONT_SIZE'; payload: '9pt' | '10pt' | '11pt' | '12pt' | undefined };
 
 // ─── Reducer ─────────────────────────────────────────────────────────────────
 
@@ -135,6 +136,16 @@ function resumeReducer(state: ResumeState, action: Action): ResumeState {
         resume: {
           ...state.resume,
           customColors: action.payload,
+          lastModified: now,
+        },
+      };
+
+    case 'SET_FONT_SIZE':
+      return {
+        ...state,
+        resume: {
+          ...state.resume,
+          fontSize: action.payload,
           lastModified: now,
         },
       };
