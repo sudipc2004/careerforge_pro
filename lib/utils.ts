@@ -49,3 +49,36 @@ export function truncate(str: string, length: number): string {
   if (!str) return '';
   return str.length > length ? `${str.substring(0, length)}...` : str;
 }
+
+/**
+ * Gets the word count of a string.
+ */
+export function getWordCount(text: string): number {
+  if (!text) return 0;
+  const cleanText = text.trim().replace(/\s+/g, ' ');
+  return cleanText === '' ? 0 : cleanText.split(' ').length;
+}
+
+/**
+ * Gets the character count of a string, option to exclude spaces.
+ */
+export function getCharacterCount(text: string, excludeSpaces: boolean = false): number {
+  if (!text) return 0;
+  return excludeSpaces ? text.replace(/\s/g, '').length : text.length;
+}
+
+/**
+ * Estimates reading time in minutes (based on average of 200 words per minute).
+ */
+export function getReadingTime(text: string): number {
+  const words = getWordCount(text);
+  return Math.max(1, Math.ceil(words / 200));
+}
+
+/**
+ * Estimates speaking time in minutes (based on average of 150 words per minute).
+ */
+export function getSpeakingTime(text: string): number {
+  const words = getWordCount(text);
+  return Math.max(1, Math.ceil(words / 150));
+}
