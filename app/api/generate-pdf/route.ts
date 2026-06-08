@@ -39,7 +39,7 @@ export async function POST(req: NextRequest) {
       preferCSSPageSize: false,
     });
 
-    return new NextResponse(pdf, {
+    return new NextResponse(pdf as unknown as BodyInit, {
       headers: {
         'Content-Type': 'application/pdf',
         'Content-Disposition': `attachment; filename="${resume.contact.fullName || 'resume'}-careerforge.pdf"`,
