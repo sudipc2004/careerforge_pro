@@ -35,7 +35,7 @@ export default function SkillsForm() {
     <div className="space-y-4">
       {skills.length === 0 && (
         <div className="text-center py-6 text-gray-500 text-sm">
-          Add skill groups like "Languages", "Frameworks", "Tools"
+          Add skill groups like &quot;Languages&quot;, &quot;Frameworks&quot;, &quot;Tools&quot;
         </div>
       )}
 

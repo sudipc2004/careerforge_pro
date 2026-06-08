@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import Navbar from '@/components/layout/Navbar';
 import {
-  Plus, FileText, Crown, Zap, Clock, Trash2, Edit3, Download,
+  Plus, FileText, Crown, Zap, Clock, Trash2, Edit3,
   BarChart3, ArrowRight, Loader2, Sparkles,
 } from 'lucide-react';
 import Link from 'next/link';
@@ -21,29 +21,37 @@ export default function DashboardPage() {
   const [savedResumes, setSavedResumes] = useState<ResumeData[]>([]);
   const [loadingPortal, setLoadingPortal] = useState(false);
 
-  const isPro = (session?.user as any)?.plan === 'pro';
+  const isPro = (session?.user as { plan?: string })?.plan === 'pro';
 
   useEffect(() => {
     if (status === 'unauthenticated') router.push('/login');
   }, [status, router]);
 
-  // Load from localStorage
+  // Load and sync from localStorage
   useEffect(() => {
     const stored = localStorage.getItem('careerforge_resumes');
+    let resumes: ResumeData[] = [];
     if (stored) {
-      try { setSavedResumes(JSON.parse(stored)); } catch {}
+      try {
+        resumes = JSON.parse(stored) as ResumeData[];
+      } catch {}
     }
-  }, []);
 
-  const saveCurrentResume = () => {
-    const stored = localStorage.getItem('careerforge_current');
-    if (!stored) return;
-    const resume = JSON.parse(stored) as ResumeData;
-    const all = savedResumes.filter(r => r.id !== resume.id);
-    const updated = [resume, ...all];
-    setSavedResumes(updated);
-    localStorage.setItem('careerforge_resumes', JSON.stringify(updated));
-  };
+    // Sync current builder resume if it exists
+    const currentStored = localStorage.getItem('careerforge_current');
+    if (currentStored) {
+      try {
+        const currentResume = JSON.parse(currentStored) as ResumeData;
+        const filtered = resumes.filter((r) => r.id !== currentResume.id);
+        resumes = [currentResume, ...filtered];
+        localStorage.setItem('careerforge_resumes', JSON.stringify(resumes));
+      } catch {}
+    }
+
+    setTimeout(() => {
+      setSavedResumes(resumes);
+    }, 0);
+  }, []);
 
   const openResume = (resume: ResumeData) => {
     dispatch({ type: 'SET_RESUME', payload: resume });

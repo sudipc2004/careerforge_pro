@@ -14,7 +14,7 @@ export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
 
-  const isPro = (session?.user as any)?.plan === 'pro';
+  const isPro = (session?.user as { plan?: string })?.plan === 'pro';
 
   const navLinks = [
     { href: '/builder', label: 'Builder', icon: FileText },

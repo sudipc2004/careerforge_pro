@@ -39,7 +39,7 @@ export default function NotFound() {
           <h2 className="text-2xl font-bold text-white mb-4">Page Not Found</h2>
           
           <p className="text-gray-400 text-sm leading-relaxed mb-8">
-            The page you are looking for might have been removed, had its name changed, or is temporarily unavailable. Let's get you back on track!
+            The page you are looking for might have been removed, had its name changed, or is temporarily unavailable. Let&apos;s get you back on track!
           </p>
 
           {/* Navigation Buttons */}

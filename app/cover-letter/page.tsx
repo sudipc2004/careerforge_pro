@@ -6,7 +6,7 @@ import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import {
   Sparkles, FileText, Download, Loader2, Send, Copy, Check,
-  ChevronRight, AlertCircle, ArrowLeft, RefreshCw, Briefcase,
+  AlertCircle, ArrowLeft, Briefcase,
 } from 'lucide-react';
 import Link from 'next/link';
 import { ResumeData, createDefaultResume, COVER_LETTER_TONES } from '@/lib/resume-schema';
@@ -16,7 +16,7 @@ const inputClass = `w-full bg-white/5 border border-white/10 text-white placehol
   focus:outline-none focus:border-indigo-500/60 transition-all duration-200`;
 
 export default function CoverLetterPage() {
-  const { data: session, status } = useSession();
+  const { status } = useSession();
   const router = useRouter();
 
   // State
@@ -49,11 +49,13 @@ export default function CoverLetterPage() {
     if (stored) {
       try {
         const parsed = JSON.parse(stored) as ResumeData[];
-        setSavedResumes(parsed);
-        if (parsed.length > 0) {
-          setSelectedResumeId(parsed[0].id);
-          setCustomResumeData(parsed[0]);
-        }
+        setTimeout(() => {
+          setSavedResumes(parsed);
+          if (parsed.length > 0) {
+            setSelectedResumeId(parsed[0].id);
+            setCustomResumeData(parsed[0]);
+          }
+        }, 0);
       } catch (e) {
         console.error('Failed to parse saved resumes', e);
       }
@@ -248,7 +250,7 @@ export default function CoverLetterPage() {
                   )}
                   {customResumeData.summary && (
                     <div className="text-gray-500 italic line-clamp-2 mt-1">
-                      "{customResumeData.summary}"
+                      &quot;{customResumeData.summary}&quot;
                     </div>
                   )}
                 </div>
@@ -316,7 +318,7 @@ export default function CoverLetterPage() {
                 <FileText className="w-12 h-12 text-gray-600 mb-4" />
                 <h3 className="text-lg font-semibold text-white mb-2">No Cover Letter Generated</h3>
                 <p className="text-gray-400 text-sm max-w-sm">
-                  Complete the options on the left and click "Generate Draft" to write a premium AI-generated cover letter.
+                  Complete the options on the left and click &quot;Generate Draft&quot; to write a premium AI-generated cover letter.
                 </p>
               </div>
             ) : (

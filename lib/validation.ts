@@ -56,7 +56,7 @@ export function validateWebsite(url: string): boolean {
     const urlToTest = /^https?:\/\//i.test(cleanUrl) ? cleanUrl : `https://${cleanUrl}`;
     const parsed = new URL(urlToTest);
     return parsed.hostname.includes('.');
-  } catch (error) {
+  } catch {
     return false;
   }
 }
@@ -65,7 +65,7 @@ export function validateWebsite(url: string): boolean {
  * Validates a dictionary of required fields and returns the keys that are empty.
  */
 export function getMissingRequiredFields(
-  data: Record<string, any>,
+  data: Record<string, unknown>,
   requiredKeys: string[]
 ): string[] {
   const missing: string[] = [];

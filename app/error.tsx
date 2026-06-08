@@ -49,7 +49,7 @@ export default function Error({
           {/* Heading */}
           <h2 className="text-2xl font-bold text-white mb-2">Something went wrong!</h2>
           <p className="text-gray-400 text-sm leading-relaxed mb-6">
-            An unexpected error occurred in the application. We've logged the error and our team is looking into it.
+            An unexpected error occurred in the application. We&apos;ve logged the error and our team is looking into it.
           </p>
 
           {/* Error Digest/Message if helpful */}

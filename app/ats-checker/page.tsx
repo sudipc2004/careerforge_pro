@@ -5,7 +5,7 @@ import Navbar from '@/components/layout/Navbar';
 import {
   Upload, FileText, Sparkles, Brain, CheckCircle2,
   AlertTriangle, Loader2, ArrowRight, RefreshCw, BarChart2,
-  ArrowLeft, Search
+  Search
 } from 'lucide-react';
 import toast from 'react-hot-toast';
 import Link from 'next/link';
@@ -119,9 +119,10 @@ export default function ATSCheckerPage() {
       });
 
       toast.success('ATS Analysis Complete! ✨', { id: toastId });
-    } catch (err: any) {
+    } catch (err) {
       console.error(err);
-      toast.error(err.message || 'Verification failed. Please try again.', { id: toastId });
+      const errorMessage = err instanceof Error ? err.message : 'Verification failed. Please try again.';
+      toast.error(errorMessage, { id: toastId });
     } finally {
       setIsAnalyzing(false);
     }
@@ -439,7 +440,7 @@ export default function ATSCheckerPage() {
                     ))}
                   </div>
                 ) : (
-                  <p className="text-xs text-gray-500 italic">No matching keywords detected. Check your resume's spelling and phrasing.</p>
+                  <p className="text-xs text-gray-500 italic">No matching keywords detected. Check your resume&apos;s spelling and phrasing.</p>
                 )}
               </div>
 

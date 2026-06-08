@@ -19,7 +19,7 @@ function normalizeText(text: string): string {
     .trim();
 }
 
-function tokenize(text: string): string[] {
+export function tokenize(text: string): string[] {
   return normalizeText(text)
     .split(' ')
     .filter((t) => t.length > 1 && !STOP_WORDS.has(t));

@@ -39,7 +39,7 @@ export default function PricingPage() {
   const [loading, setLoading] = useState(false);
   const [billing, setBilling] = useState<'monthly' | 'annual'>('monthly');
 
-  const isPro = (session?.user as any)?.plan === 'pro';
+  const isPro = (session?.user as { plan?: string })?.plan === 'pro';
 
   const handleUpgrade = async () => {
     if (!session) {

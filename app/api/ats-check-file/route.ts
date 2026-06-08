@@ -40,7 +40,7 @@ export async function POST(req: NextRequest) {
       const parsedPdf = await parser.getText();
       resumeText = parsedPdf.text || '';
       await parser.destroy();
-    } catch (parseError: any) {
+    } catch (parseError) {
       console.error('PDF parsing error:', parseError);
       return NextResponse.json({ error: 'Failed to extract text from PDF. Ensure the file is not corrupted.' }, { status: 400 });
     }
@@ -100,7 +100,7 @@ Rules:
     let analysisResult;
     try {
       analysisResult = JSON.parse(jsonText);
-    } catch (jsonError) {
+    } catch {
       console.error('JSON parsing error from Gemini output:', rawText);
       return NextResponse.json({ error: 'Failed to process ATS results' }, { status: 500 });
     }
@@ -111,7 +111,7 @@ Rules:
       analysis: analysisResult
     });
 
-  } catch (error: any) {
+  } catch (error) {
     return handleGeminiError(error, 'ATS file check error');
   }
 }

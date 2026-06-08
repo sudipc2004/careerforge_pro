@@ -2,7 +2,7 @@
 import Link from 'next/link';
 import Navbar from '@/components/layout/Navbar';
 import {
-  Sparkles, Zap, Target, FileDown, CheckCircle2, ArrowRight, Star,
+  Sparkles, Zap, Target, FileDown, ArrowRight, Star,
   Brain, BarChart3, FileText, Shield,
 } from 'lucide-react';
 
@@ -266,7 +266,7 @@ export default function HomePage() {
                     <Star key={i} className="w-4 h-4 text-amber-400 fill-amber-400" />
                   ))}
                 </div>
-                <p className="text-sm text-gray-300 leading-relaxed mb-4">"{t.text}"</p>
+                <p className="text-sm text-gray-300 leading-relaxed mb-4">&quot;{t.text}&quot;</p>
                 <div className="flex items-center gap-3">
                   <div className="w-9 h-9 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-xs font-bold text-white">
                     {t.avatar}

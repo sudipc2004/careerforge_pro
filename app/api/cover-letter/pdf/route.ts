@@ -174,7 +174,7 @@ export async function POST(req: NextRequest) {
       preferCSSPageSize: false,
     });
 
-    return new NextResponse(pdf as any, {
+    return new NextResponse(pdf, {
       headers: {
         'Content-Type': 'application/pdf',
         'Content-Disposition': `attachment; filename="${contact.fullName.replace(/\s+/g, '_')}_Cover_Letter.pdf"`,

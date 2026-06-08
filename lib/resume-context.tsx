@@ -8,7 +8,6 @@ import {
   SkillGroup,
   Project,
   Certification,
-  BulletPoint,
   ResumeTemplate,
   JDAnalysis,
   ATSResult,

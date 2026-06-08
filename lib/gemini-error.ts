@@ -4,15 +4,17 @@ import { NextResponse } from 'next/server';
  * Parses errors returned by the Google Generative AI SDK (Gemini)
  * and returns an appropriate Next.js Response with descriptive errors.
  */
-export function handleGeminiError(error: any, defaultMessage: string) {
+export function handleGeminiError(error: unknown, defaultMessage: string) {
   console.error(`${defaultMessage} details:`, error);
 
-  const errorMessage = typeof error === 'object' && error !== null && 'message' in error
-    ? String(error.message)
+  const errObj = error && typeof error === 'object' ? (error as Record<string, unknown>) : null;
+
+  const errorMessage = errObj && 'message' in errObj
+    ? String(errObj.message)
     : String(error);
 
-  const status = error && typeof error === 'object' && 'status' in error
-    ? Number(error.status)
+  const status = errObj && 'status' in errObj
+    ? Number(errObj.status)
     : 500;
 
   const isQuotaError = 

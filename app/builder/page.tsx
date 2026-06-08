@@ -14,7 +14,7 @@ import ATSScoreMeter from '@/components/ui/ATSScoreMeter';
 import { useResume } from '@/lib/resume-context';
 import {
   User, Briefcase, GraduationCap, Wrench, FileText,
-  Sparkles, Download, Loader2, Target, ChevronRight,
+  Download, Loader2, Target, ChevronRight,
   Zap, LayoutTemplate, Brain, AlertCircle, FolderCode, Award,
 } from 'lucide-react';
 import toast from 'react-hot-toast';
@@ -41,7 +41,7 @@ export default function BuilderPage() {
   const [activeSection, setActiveSection] = useState('contact');
   const [showJDPanel, setShowJDPanel] = useState(false);
   const [showTemplates, setShowTemplates] = useState(false);
-  const [variations, setVariations] = useState<string[]>([]);
+
 
   const { resume, jobDescription, jdAnalysis, atsResult, isAnalyzing, isGeneratingPdf } = state;
 
@@ -177,7 +177,7 @@ export default function BuilderPage() {
                 <button
                   key={t.id}
                   onClick={() => {
-                    dispatch({ type: 'SET_TEMPLATE', payload: t.id as any });
+                    dispatch({ type: 'SET_TEMPLATE', payload: t.id as 'modern' | 'executive' | 'minimal' });
                     setShowTemplates(false);
                   }}
                   className={`flex items-center gap-2 px-3 py-2 rounded-xl text-sm transition-all ${
@@ -250,7 +250,7 @@ export default function BuilderPage() {
                   <select
                     value={resume.fontSize || '10pt'}
                     onChange={(e) => {
-                      const sz = e.target.value as any;
+                      const sz = e.target.value as '9pt' | '10pt' | '11pt' | '12pt';
                       dispatch({ type: 'SET_FONT_SIZE', payload: sz });
                     }}
                     className="bg-transparent text-white border-none outline-none text-xs cursor-pointer font-medium"
