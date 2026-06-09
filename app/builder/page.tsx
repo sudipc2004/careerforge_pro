@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import Navbar from '@/components/layout/Navbar';
 import ContactForm from '@/components/resume-form/ContactForm';
 import SummaryForm from '@/components/resume-form/SummaryForm';
@@ -16,6 +16,7 @@ import {
   User, Briefcase, GraduationCap, Wrench, FileText,
   Download, Loader2, Target, ChevronRight,
   Zap, LayoutTemplate, Brain, AlertCircle, FolderCode, Award,
+  Upload,
 } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { MOCK_RESUME_FRONTEND, MOCK_RESUME_PRODUCT_MANAGER, MOCK_RESUME_UX_DESIGNER } from '@/data/mock-resumes';
@@ -41,9 +42,53 @@ export default function BuilderPage() {
   const [activeSection, setActiveSection] = useState('contact');
   const [showJDPanel, setShowJDPanel] = useState(false);
   const [showTemplates, setShowTemplates] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
 
   const { resume, jobDescription, jdAnalysis, atsResult, isAnalyzing, isGeneratingPdf } = state;
+
+  const handleExportJSON = () => {
+    try {
+      const dataStr = 'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(resume, null, 2));
+      const downloadAnchor = document.createElement('a');
+      downloadAnchor.setAttribute('href', dataStr);
+      downloadAnchor.setAttribute('download', `${resume.name || 'resume'}.json`);
+      document.body.appendChild(downloadAnchor);
+      downloadAnchor.click();
+      downloadAnchor.remove();
+      toast.success('Resume JSON exported successfully! 💾');
+    } catch {
+      toast.error('Failed to export resume.');
+    }
+  };
+
+  const handleImportJSON = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      try {
+        const importedResume = JSON.parse(event.target?.result as string);
+        if (importedResume && typeof importedResume === 'object' && 'contact' in importedResume) {
+          dispatch({
+            type: 'SET_RESUME',
+            payload: {
+              ...importedResume,
+              id: resume.id,
+            },
+          });
+          toast.success('Resume JSON imported successfully! 🚀');
+        } else {
+          toast.error('Invalid resume JSON format.');
+        }
+      } catch {
+        toast.error('Failed to parse JSON file.');
+      }
+    };
+    reader.readAsText(file);
+    e.target.value = '';
+  };
 
   const handleAnalyzeJD = async () => {
     if (!jobDescription.trim()) {
@@ -131,6 +176,31 @@ export default function BuilderPage() {
               <option value="pm" className="bg-[#0a0f1e] text-white">Product Manager</option>
               <option value="ux" className="bg-[#0a0f1e] text-white">UX/UI Designer</option>
             </select>
+
+            {/* Import/Export JSON */}
+            <input
+              type="file"
+              ref={fileInputRef}
+              onChange={handleImportJSON}
+              accept=".json"
+              className="hidden"
+            />
+            <button
+              onClick={() => fileInputRef.current?.click()}
+              className="flex items-center gap-1.5 px-3 py-2 glass hover:bg-white/10 text-gray-300 text-xs sm:text-sm rounded-xl transition-all"
+              title="Import resume from JSON"
+            >
+              <Upload className="w-4 h-4" />
+              <span className="hidden sm:inline">Import JSON</span>
+            </button>
+            <button
+              onClick={handleExportJSON}
+              className="flex items-center gap-1.5 px-3 py-2 glass hover:bg-white/10 text-gray-300 text-xs sm:text-sm rounded-xl transition-all"
+              title="Export resume to JSON"
+            >
+              <Download className="w-4 h-4" />
+              <span className="hidden sm:inline">Export JSON</span>
+            </button>
 
             {/* Template picker */}
             <button
