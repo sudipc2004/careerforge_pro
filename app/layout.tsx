@@ -18,12 +18,12 @@ const outfit = Outfit({
 });
 
 export const metadata: Metadata = {
-  title: 'CareerForge Pro — AI-Powered ATS Resume Builder',
+  title: 'CareerForge Pro — AI-Powered ATS Resume Builder by Sudip',
   description:
     'Build ATS-optimized resumes with AI. Upload your resume, paste a job description, and get a perfectly tailored, professionally formatted PDF resume in seconds.',
   keywords: ['resume builder', 'ATS optimization', 'AI resume', 'job application', 'cover letter'],
   openGraph: {
-    title: 'CareerForge Pro',
+    title: 'CareerForge Pro by Sudip',
     description: 'Build ATS-optimized resumes with AI',
     type: 'website',
   },

@@ -317,7 +317,7 @@ export default function HomePage() {
           <span className="font-bold text-gradient font-[var(--font-outfit)]">CareerForge Pro</span>
         </div>
         <p className="text-xs text-gray-500">
-          © 2025 CareerForge Pro. Built with ❤️ using Gemini AI.
+          © 2026 CareerForge Pro. Built with ❤️ by <a href="https://github.com/sudipc2004" target="_blank" rel="noopener noreferrer" className="text-indigo-400 hover:text-indigo-300 transition-colors">Sudip</a> using Gemini AI.
         </p>
       </footer>
     </div>

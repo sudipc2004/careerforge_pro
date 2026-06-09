@@ -82,7 +82,7 @@ export default function Error({
       {/* Footer */}
       <footer className="py-6 text-center border-t border-white/5 relative z-10">
         <p className="text-xs text-gray-500">
-          © 2026 CareerForge Pro. All rights reserved.
+          © 2026 CareerForge Pro. Built with ❤️ by <a href="https://github.com/sudipc2004" target="_blank" rel="noopener noreferrer" className="text-indigo-400 hover:text-indigo-300 transition-colors">Sudip</a>. All rights reserved.
         </p>
       </footer>
     </div>
