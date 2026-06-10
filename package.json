@@ -12,6 +12,7 @@
     "@google/generative-ai": "^0.24.1",
     "@stripe/stripe-js": "^9.7.0",
     "@types/pdf-parse": "^1.1.5",
+    "framer-motion": "^12.40.0",
     "lucide-react": "^1.17.0",
     "next": "16.2.7",
     "next-auth": "^4.24.14",
