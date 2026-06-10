@@ -44,23 +44,58 @@ export default function CoverLetterPage() {
     }
   }, [status, router]);
 
+  const [isLoaded, setIsLoaded] = useState(false);
+
   useEffect(() => {
     const stored = localStorage.getItem('careerforge_resumes');
+    let parsedResumes: ResumeData[] = [];
     if (stored) {
       try {
-        const parsed = JSON.parse(stored) as ResumeData[];
-        setTimeout(() => {
-          setSavedResumes(parsed);
-          if (parsed.length > 0) {
-            setSelectedResumeId(parsed[0].id);
-            setCustomResumeData(parsed[0]);
-          }
-        }, 0);
+        parsedResumes = JSON.parse(stored) as ResumeData[];
       } catch (e) {
         console.error('Failed to parse saved resumes', e);
       }
     }
+
+    const savedInputs = localStorage.getItem('careerforge_coverletter_inputs');
+    let savedJD = '';
+    let savedTone = 'professional';
+    let savedResumeId = '';
+    if (savedInputs) {
+      try {
+        const parsed = JSON.parse(savedInputs);
+        savedJD = parsed.jobDescription || '';
+        savedTone = parsed.tone || 'professional';
+        savedResumeId = parsed.selectedResumeId || '';
+      } catch (e) {
+        console.error('Failed to restore cover letter inputs:', e);
+      }
+    }
+
+    setTimeout(() => {
+      if (parsedResumes.length > 0) {
+        setSavedResumes(parsedResumes);
+        if (savedResumeId && parsedResumes.some(r => r.id === savedResumeId)) {
+          setSelectedResumeId(savedResumeId);
+          const resume = parsedResumes.find((r) => r.id === savedResumeId);
+          if (resume) setCustomResumeData(resume);
+        } else {
+          setSelectedResumeId(parsedResumes[0].id);
+          setCustomResumeData(parsedResumes[0]);
+        }
+      }
+      if (savedJD) setJobDescription(savedJD);
+      if (savedTone) setTone(savedTone);
+      setIsLoaded(true);
+    }, 0);
   }, []);
+
+  useEffect(() => {
+    if (isLoaded) {
+      const inputs = { jobDescription, tone, selectedResumeId };
+      localStorage.setItem('careerforge_coverletter_inputs', JSON.stringify(inputs));
+    }
+  }, [jobDescription, tone, selectedResumeId, isLoaded]);
 
   // Handle resume selection changes
   const handleResumeChange = (id: string) => {
