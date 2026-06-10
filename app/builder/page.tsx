@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import Navbar from '@/components/layout/Navbar';
 import ContactForm from '@/components/resume-form/ContactForm';
 import SummaryForm from '@/components/resume-form/SummaryForm';
@@ -43,9 +43,32 @@ export default function BuilderPage() {
   const [showJDPanel, setShowJDPanel] = useState(false);
   const [showTemplates, setShowTemplates] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
-
+  const isLoadedRef = useRef(false);
 
   const { resume, jobDescription, jdAnalysis, atsResult, isAnalyzing, isGeneratingPdf } = state;
+
+  // Load saved resume from localStorage on mount
+  useEffect(() => {
+    const saved = localStorage.getItem('careerforge_current');
+    if (saved) {
+      try {
+        const parsed = JSON.parse(saved);
+        if (parsed && typeof parsed === 'object' && 'contact' in parsed) {
+          dispatch({ type: 'SET_RESUME', payload: parsed });
+        }
+      } catch (e) {
+        console.error('Failed to load saved resume:', e);
+      }
+    }
+    isLoadedRef.current = true;
+  }, [dispatch]);
+
+  // Auto-save resume to localStorage when it changes
+  useEffect(() => {
+    if (isLoadedRef.current && resume) {
+      localStorage.setItem('careerforge_current', JSON.stringify(resume));
+    }
+  }, [resume]);
 
   const handleExportJSON = () => {
     try {
